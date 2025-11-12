@@ -1,13 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
+<meta charset="UTF-8">
+<title>Muistilaput📝</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+  body {
+    background-image: url('https://img.freepik.com/premium-photo/directly-shot-table_1048944-7546952.jpg?semt=ais_hybrid&w=740&q=80');
+    font-family: sans-serif;
+  }
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  @keyframes tilt-shaking {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .shakes { animation: tilt-shaking 0.5s infinite; }
+
+  .muisti {
+    position: absolute;
+    z-index: 9;
+    background-color: yellow;
+  }
+
+  .muistilappu {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #CCCC00;
+    color: #fff;
+    text-align: center;
+  }
+
+  textarea {
+    color: black;
+    background-color: yellow;
+    border: yellow;
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    min-height: 15px;
+    min-width: 150px;
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    background-color: #CCCC00;
+    color: #fff;
+    text-align: center;
+    border: none;
+  }
+
+  .lappualue {
+    color: black;
+    background-color: yellow;
+    border: yellow;
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  #roskis {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/3096/3096673.png');
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .dot-x {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 50px;
+    background: none;
+    border: dotted;
+    cursor: pointer;
+    color: red;
+    opacity: 0.5;
+    position: absolute; 
+    left: 0%;
+    bottom: 0%;
+  }
+
+  .dot-x:hover { opacity: 1.0; }
+</style>
 </head>
-<body style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/a/ac/Johan_August_Sandels_av_Per_Krafft_den_yngre.jpg);">
+<body>
 
-    
+<button onclick="newNote()">+</button>
+<button onclick="deleteNote()">X</button>
+<button id="nappi" class="dot-x" ondblclick="shake()">X</button>
+
+<div id="roskis"></div>
+
+<script>
+let deleteN = 0;
+let noteCounter = 0; 
+
+function newNote() {
+  noteCounter++;
+  const muisti = document.createElement("div");
+  muisti.classList.add("muisti"); 
+  muisti.id = "muisti-" + noteCounter;
+
+  const lappu = document.createElement("div");
+  lappu.classList.add("muistilappu");
+  lappu.id = "muistilappu-" + noteCounter;
+
+  const nimi = document.createElement("input");
+  nimi.value = "Muistio";
+
+  const alue = document.createElement("textarea");
+  alue.classList.add("lappualue");
+  alue.id = "lappualue-" + noteCounter;
+
+  lappu.appendChild(nimi);
+  muisti.appendChild(lappu);
+  muisti.appendChild(alue);
+  document.body.appendChild(muisti);
+
+  dragElement(muisti);
+}
+
+function dragElement(elmnt) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  const header = elmnt.querySelector(".muistilappu");
+  if (header) {
+    header.onmousedown = dragMouseDown;
+  } else {
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+// Optional: placeholder for deleteNote and shake
+function deleteNote() { alert("Poista muisti!"); }
+function shake() { alert("Shaking!"); }
+</script>
 </body>
 </html>
