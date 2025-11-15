@@ -20,7 +20,6 @@ function newNote() {
   muisti.appendChild(lappu);
   muisti.appendChild(alue);
   document.body.appendChild(muisti);
-
   dragElement(muisti);
   saveNotes();
 }
@@ -68,48 +67,40 @@ function loadNotes() {
     muisti.appendChild(lappu);
     muisti.appendChild(alue);
     document.body.appendChild(muisti);
-
     dragElement(muisti);
   });
 }
-
 function dragElement(elmnt) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   const header = elmnt.querySelector(".muistilappu");
   if (header) {
-    header.ontouchstart = ontouchstart;
+    header.onmousedown = dragMouseDown;
   } else {
-    elmnt.ontouchstart = ontouchstart;
+    elmnt.onmousedown = dragMouseDown;
   }
 
 
 
-  function ontouchstart(e) {
+  function dragMouseDown(e) {
     e = e || window.event;
-    // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.ontouchend = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.ontouchend= elementDrag;
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
   }
 
   function elementDrag(e) {
     e = e || window.event;
-    // calculate the new cursor position:
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
   }
-
   function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.ontouchend = null;
-    document.ontouchend = null;
+    document.onmouseup = null;
+    document.onmousemove = null;
     saveNotes();
   }
 }
