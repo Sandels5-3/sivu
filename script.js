@@ -1,13 +1,11 @@
-
+let Poistu=false;
 let deleteN = 0;
-let noteCounter = 0; 
+let noteCounter = 0;
 function newNote() {
   noteCounter++;
   const muisti = document.createElement("div");
   muisti.classList.add("muisti");
   muisti.id = "muisti-" + noteCounter;
-  muisti.style.top = "100px";
-  muisti.style.left = "100px";
   const lappu = document.createElement("div");
   lappu.classList.add("muistilappu");
   const nimi = document.createElement("input");
@@ -75,19 +73,21 @@ function dragElement(elmnt) {
   const header = elmnt.querySelector(".muistilappu");
   if (header) {
     header.onmousedown = dragMouseDown;
+   
   } else {
     elmnt.onmousedown = dragMouseDown;
   }
-
-
 
   function dragMouseDown(e) {
     e = e || window.event;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
+    document.onmouseup= closeDragElement;
     document.onmousemove = elementDrag;
   }
+    
+    
+  
 
   function elementDrag(e) {
     e = e || window.event;
@@ -97,10 +97,13 @@ function dragElement(elmnt) {
     pos4 = e.clientY;
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
   }
-  function closeDragElement() {
+ function closeDragElement() {
+    if (Poistu === true) elmnt.remove();
     document.onmouseup = null;
-    document.onmousemove = null;
+    document.onmousemove = null; 
     saveNotes();
-  }
+ }
 }
+

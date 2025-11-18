@@ -1,3 +1,5 @@
+@media (min-width: 600px){
+}
 @keyframes tilt-shaking {
   0% { transform: rotate(0deg); }
   25% { transform: rotate(5deg); }
@@ -12,7 +14,7 @@
   position: absolute;
   z-index: 9;
   background-color: yellow;
-
+  
 }
 textarea{
   color: black;
@@ -47,17 +49,7 @@ input{
 }
 body{
   background-image: url(https://img.freepik.com/premium-photo/directly-shot-table_1048944-7546952.jpg?semt=ais_hybrid&w=740&q=80);
-}
-.lappualue{
-  color: black;
-  background-color: yellow;
-  border: yellow;
-  width: 100%;
-  height: 150px;
-  padding: 12px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  font-size: 16px;
+  overflow: hidden;
 }
 
 
@@ -73,11 +65,12 @@ body{
   border: dotted;
   cursor: pointer;
   color:red;
-  opacity: 0.5;
+  opacity: 0.0;
   position: absolute; 
-  left: 0%;
-  bottom: 0%;
+  width: 100%;
+  bottom: -59%;
+  z-index: 999;
+
+
 }
-.dot-x:hover { 
-  opacity: 1.0;
-}
+
